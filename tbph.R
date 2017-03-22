@@ -1,6 +1,7 @@
 setwd("/Users/hazelettd/Desktop/projects/dmelano-tbph/")
 library(ggplot2)
 library(grid)
+library(rstan)
 
 datafiles <- read.delim2("inventory.txt",  header = TRUE)
 datafiles <- subset(datafiles, experiment=="EJPs", drop = TRUE)
@@ -31,7 +32,7 @@ for (i in 1:length(usethis)) {
   }
 }
 
-sum(is.na(records$genotype))/nrow(records)
+records <- subset(records, !genotype %in% c("", "D42>LacZ"))
 
 ggplot(data=subset(records, calcium==3), aes(x=as.numeric(max_Vm))) + geom_density(fill="grey65") + facet_wrap(~genotype) + ylim(c(0,6e-3))
 
